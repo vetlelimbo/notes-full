@@ -1,12 +1,18 @@
 "use server";
 import { auth } from "@/auth";
 import { headers } from "next/headers";
+import { parse } from "path";
 import * as z from "zod";
 
 const userSignUp = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   name: z.string().min(1),
+});
+
+const userSignIn = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
 });
 
 export async function signUpAction(formData: FormData) {
@@ -39,6 +45,33 @@ export async function signUpAction(formData: FormData) {
       success: false,
       error: "Something went wrong creating user. Error: " + err,
     };
+  }
+}
+
+export async function signInAction(formData: FormData) {
+  const formEmail = formData.get("email");
+  const formPassword = formData.get("password");
+
+  const parsedData = userSignIn.safeParse({
+    email: formEmail,
+    password: formPassword,
+  });
+
+  if (!parsedData.success) {
+    return { success: false, error: parsedData.error.format() };
+  }
+
+  try {
+    await auth.api.signInEmail({
+      body: {
+        email: parsedData.data.email,
+        password: parsedData.data.password,
+      },
+    });
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err };
   }
 }
 
