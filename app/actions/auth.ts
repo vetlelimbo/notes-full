@@ -1,5 +1,6 @@
 "use server";
 import { auth } from "@/auth";
+import { headers } from "next/headers";
 import * as z from "zod";
 
 const userSignUp = z.object({
@@ -38,5 +39,17 @@ export async function signUpAction(formData: FormData) {
       success: false,
       error: "Something went wrong creating user. Error: " + err,
     };
+  }
+}
+
+export async function signOutAction() {
+  try {
+    await auth.api.signOut({
+      headers: await headers(),
+    });
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err };
   }
 }
