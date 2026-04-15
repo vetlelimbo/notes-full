@@ -4,6 +4,7 @@ import { db } from "@/lib/db/drizzle";
 import { eq, and, desc } from "drizzle-orm";
 import { NewNote, note } from "@/lib/db/schema";
 import * as z from "zod";
+import { revalidatePath } from "next/cache";
 
 const zNote = z.object({
   userId: z.string().min(1),
@@ -19,7 +20,7 @@ const upateNoteParse = z.object({
 });
 
 export async function createNote(newNote: NewNote) {
-  const parsedNote = zNote.safeParse(newNote); // TODO: Figure out how to get nice errors, this was pain to handle
+  const parsedNote = zNote.safeParse(newNote); // TODO: Figure out how to get nice errors, this was pain to handle: error gives Object: object
 
   if (!parsedNote.success) {
     return { success: false, error: parsedNote.error.format() };
@@ -90,6 +91,20 @@ export async function updateNote(
       })
       .where(and(eq(note.userId, userId), eq(note.id, noteId)));
 
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err };
+  }
+}
+
+// Look how simple it is using db queries from drizzle
+export async function deleteNoteAction(noteId: number, userId: string) {
+  try {
+    await db
+      .delete(note)
+      .where(and(eq(note.id, noteId), eq(note.userId, userId)));
+
+    revalidatePath("/dashboard"); // revalidating path to update UI with new data from db
     return { success: true };
   } catch (err) {
     return { success: false, error: err };

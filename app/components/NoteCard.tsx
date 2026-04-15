@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { deleteNoteAction } from "../actions/dbactions";
 
 export default function NoteCard({
   noteId,
@@ -12,11 +13,20 @@ export default function NoteCard({
   title: string;
   description: string;
 }) {
-  async function handleDelete() {}
+  async function handleDelete() {
+    try {
+      const response = await deleteNoteAction(noteId, userId);
+      if (!response.success) {
+        throw new Error("Error " + response.error);
+      }
+    } catch (err) {
+      console.error("Something went wrong deleting note: " + err);
+    }
+  }
   return (
     <div className="text-white bg-zinc-900 border-zinc-800 text-center rounded-md p-6 border flex flex-col items-center min-h-80 gap-5 relative">
       <div className="flex items-center">
-        <h2 className="text-white text-lg">{title}</h2>
+        <h2 className="text-white text-lg max-w-50">{title}</h2>
         <div onClick={handleDelete} className="absolute right-5 cursor-pointer">
           ❌
         </div>

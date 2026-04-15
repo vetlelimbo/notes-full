@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 export default function DashboardNav() {
   async function handleLogout() {
+    "use server";
     const response = await signOutAction();
 
     if (!response.success) {
@@ -12,13 +13,17 @@ export default function DashboardNav() {
       );
     }
 
+    //TODO: This redirect does not route properly. Expect its because its contained in a separate layout.tsx file
     redirect("/");
   }
 
   return (
     <div className="bg-zinc-950 border-b border-zinc-800 mb-15">
       {/* TODO create the server action for logut and put inside of action attribute*/}
-      <form className="max-w-9/10 flex justify-between mx-auto py-6 items-center">
+      <form
+        onSubmit={handleLogout}
+        className="max-w-9/10 flex justify-between mx-auto py-6 items-center"
+      >
         <p className="text-white text-xl">Limbo Notes</p>
         <div className="flex gap-4">
           <Link
