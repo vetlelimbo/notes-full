@@ -2,7 +2,8 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getNotes } from "../actions/dbactions";
-import NoteCard from "../components/NoteCard";
+import DashboardClient from "../components/DashboardClient";
+import { Note } from "@/lib/db/schema";
 
 async function fetchNotes() {
   const session = await auth.api.getSession({
@@ -32,18 +33,5 @@ export default async function DashboardPage() {
 
   const { data } = fetcheData;
 
-  return (
-    <div className="max-w-6xl mx-auto w-full">
-      <div className="grid grid-cols-4 gap-4">
-        {data.map((note) => (
-          <NoteCard
-            key={note.id}
-            id={note.id}
-            title={note.title}
-            description={note.description}
-          />
-        ))}
-      </div>
-    </div>
-  );
+  return <DashboardClient notes={data as Note[]} />;
 }
