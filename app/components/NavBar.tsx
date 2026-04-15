@@ -27,33 +27,33 @@ export default async function NavBar() {
   return (
     <div className="bg-zinc-950 border-b border-zinc-800 mb-15">
       {/* TODO create the server action for logut and put inside of action attribute*/}
-      <form
-        action={handleSignOut}
-        className="max-w-9/10 flex justify-between mx-auto py-6 items-center"
+      <p className="text-white text-xl">Limbo Notes</p>
+      <Link
+        href={"/dashboard"}
+        className="bg-white text-black px-6 py-1 font-semibold rounded-sm cursor-pointer"
       >
-        <p className="text-white text-xl">Limbo Notes</p>
-        <Link
-          href={"/dashboard"}
-          className="bg-white text-black px-6 py-1 font-semibold rounded-sm cursor-pointer"
+        Dashboard
+      </Link>
+      {session ? (
+        <form
+          action={handleSignOut}
+          className="max-w-9/10 flex justify-between mx-auto py-6 items-center"
         >
-          Dashboard
-        </Link>
-        {session ? (
           <button
             type="submit"
             className="text-black bg-orange-50 cursor-pointer px-6 py-1 rounded-md hover:bg-orange-100"
           >
             Log out
           </button>
-        ) : (
-          <Link
-            href={"/signin"}
-            className="text-black bg-orange-50 cursor-pointer px-6 py-1 rounded-md hover:bg-orange-100"
-          >
-            Sign in
-          </Link>
-        )}
-      </form>
+        </form>
+      ) : (
+        <Link
+          href={"/signin"}
+          className="text-black bg-orange-50 cursor-pointer px-6 py-1 rounded-md hover:bg-orange-100"
+        >
+          Sign in
+        </Link>
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { getNote } from "@/app/actions/dbactions";
 import EditClient from "@/app/components/EditClient";
 import { auth } from "@/auth";
+import { Note } from "@/lib/db/schema";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -34,9 +35,10 @@ export default async function EditNote({
     console.error(
       "Something went wrong getting note. Error: " + response.error,
     );
+    redirect("/dashboard");
   }
 
-  const note = response.data[0]; //TODO: Why is this illegal?
+  const note = response.data as Note;
 
   return <EditClient note={note} />;
 }

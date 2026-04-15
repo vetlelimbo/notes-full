@@ -21,7 +21,7 @@ export default function DashboardNav() {
     <div className="bg-zinc-950 border-b border-zinc-800 mb-15">
       {/* TODO create the server action for logut and put inside of action attribute*/}
       <form
-        onSubmit={handleLogout}
+        action={handleLogout}
         className="max-w-9/10 flex justify-between mx-auto py-6 items-center"
       >
         <p className="text-white text-xl">Limbo Notes</p>

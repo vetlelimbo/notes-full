@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function DashboardClient({ notes }: { notes: Note[] }) {
   const [search, setSearch] = useState("");
   const filteredNotes = notes.filter((note) =>
-    note.title.toLowerCase().includes(search.toLocaleLowerCase()),
+    note.title.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -33,6 +33,10 @@ export default function DashboardClient({ notes }: { notes: Note[] }) {
             Click here to create your first note →
           </Link>
         </div>
+      ) : filteredNotes.length === 0 && search ? (
+        <p className="text-white font-semibold text-xl text-center">
+          No notes matches your search.
+        </p>
       ) : (
         <div className="grid grid-cols-4 gap-4">
           {filteredNotes.map((note) => (

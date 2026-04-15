@@ -12,7 +12,7 @@ const zNote = z.object({
   description: z.string().min(1),
 });
 
-const upateNoteParse = z.object({
+const updateNoteParse = z.object({
   userId: z.string().min(1),
   noteId: z.number(),
   title: z.string().min(1),
@@ -59,7 +59,7 @@ export async function getNote(userId: string, noteId: number) {
       .from(note)
       .where(and(eq(note.id, noteId), eq(note.userId, userId)));
 
-    return { success: true, data: userNote };
+    return { success: true, data: userNote[0] };
   } catch (err) {
     return { success: false, error: err };
   }
@@ -72,7 +72,7 @@ export async function updateNote(
   description: string,
 ) {
   try {
-    const parsedUpdate = upateNoteParse.safeParse({
+    const parsedUpdate = updateNoteParse.safeParse({
       userId,
       noteId,
       title,
@@ -80,7 +80,7 @@ export async function updateNote(
     });
 
     if (!parsedUpdate.success) {
-      throw new Error("Failed to parse: " + parsedUpdate.error.format());
+      return "Failed to parse: " + parsedUpdate.error.format();
     }
 
     await db
@@ -91,6 +91,7 @@ export async function updateNote(
       })
       .where(and(eq(note.userId, userId), eq(note.id, noteId)));
 
+    revalidatePath("/dashboard");
     return { success: true };
   } catch (err) {
     return { success: false, error: err };

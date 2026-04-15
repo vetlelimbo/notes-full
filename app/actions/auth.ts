@@ -5,8 +5,8 @@ import * as z from "zod";
 
 const userSignUp = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
-  name: z.string().min(1),
+  password: z.string().min(8).max(128),
+  name: z.string().min(1).max(100).trim(),
 });
 
 const userSignIn = z.object({

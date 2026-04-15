@@ -12,7 +12,7 @@ export default function EditClient({ note }: { note: Note }) {
   //TODO: I am using server action inside of client component. When would I ever need to use a auth client? or db API?
   async function handleNoteEdit(e: React.FormEvent) {
     e.preventDefault();
-    const response = await updateNote(note.userId, note.id, title, description);
+    const response = await updateNote(note.userId, note.id, title, description); //TODO: a refactor could be appropraite here getting the userId directly in server action
 
     if (!response.success) {
       console.error("Something went wrong: " + response.error);

@@ -5,20 +5,19 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function CreateNote() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) {
-    redirect("/signin");
-  }
-
   async function createNewNote(formData: FormData) {
     "use server";
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session) {
+      redirect("/signin");
+    }
     try {
       const title = formData.get("title");
       const description = formData.get("description");
-      const userId = session?.user.id; // Why ? I check if session exists already
+      const userId = session.user.id; // Why ? I check if session exists already
       const response = await createNote({
         userId,
         title,

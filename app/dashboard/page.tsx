@@ -11,10 +11,10 @@ async function fetchNotes() {
   });
 
   if (!session) {
-    redirect("/sigin");
+    redirect("/signin");
   }
 
-  const response = await getNotes(session?.user.id); //TODO: why do I have the question mark here? I check it
+  const response = await getNotes(session.user.id);
 
   if (!response.success) {
     return { success: false, error: response.error };
@@ -24,14 +24,14 @@ async function fetchNotes() {
 }
 
 export default async function DashboardPage() {
-  const fetcheData = await fetchNotes();
+  const fetchedData = await fetchNotes();
 
-  if (!fetcheData.success) {
-    console.error("Something went wrong getting notes: " + fetcheData.error);
+  if (!fetchedData.success) {
+    console.error("Something went wrong getting notes: " + fetchedData.error);
     return;
   }
 
-  const { data } = fetcheData;
+  const { data } = fetchedData;
 
   return <DashboardClient notes={data as Note[]} />;
 }
