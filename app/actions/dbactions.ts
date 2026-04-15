@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db/drizzle";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { NewNote, note } from "@/lib/db/schema";
 import * as z from "zod";
 
@@ -35,6 +35,19 @@ export async function getNotes(userId: string) {
   try {
     const data = await db.select().from(note).where(eq(note.userId, userId));
     return { success: true, data };
+  } catch (err) {
+    return { success: false, error: err };
+  }
+}
+
+export async function getNote(userId: string, noteId: number) {
+  try {
+    const userNote = await db
+      .select()
+      .from(note)
+      .where(and(eq(note.id, noteId), eq(note.userId, userId)));
+
+    return { success: true, data: userNote };
   } catch (err) {
     return { success: false, error: err };
   }
