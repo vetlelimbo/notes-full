@@ -1,0 +1,1 @@
+ALTER TABLE "note" DROP CONSTRAINT "note_userId_unique";

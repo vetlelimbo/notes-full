@@ -10,6 +10,7 @@ export default async function DashboardPage() {
   if (!session) {
     redirect("/signin");
   }
+
   return (
     <div className="max-w-6xl mx-auto w-full">
       <div className="grid grid-cols-4"></div>

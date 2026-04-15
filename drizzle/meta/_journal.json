@@ -15,6 +15,13 @@
       "when": 1776237432616,
       "tag": "0001_easy_darkstar",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1776240151196,
+      "tag": "0002_furry_avengers",
+      "breakpoints": true
     }
   ]
 }
