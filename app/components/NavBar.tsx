@@ -29,9 +29,15 @@ export default async function NavBar() {
       {/* TODO create the server action for logut and put inside of action attribute*/}
       <form
         action={handleSignOut}
-        className="max-w-9/10 flex justify-between mx-auto py-4 items-center"
+        className="max-w-9/10 flex justify-between mx-auto py-6 items-center"
       >
         <p className="text-white text-xl">Limbo Notes</p>
+        <Link
+          href={"/dashboard"}
+          className="bg-white text-black px-6 py-1 font-semibold rounded-sm cursor-pointer"
+        >
+          Dashboard
+        </Link>
         {session ? (
           <button
             type="submit"
