@@ -38,7 +38,8 @@ export default function DashboardClient({ notes }: { notes: Note[] }) {
           {filteredNotes.map((note) => (
             <NoteCard
               key={note.id}
-              id={note.id}
+              noteId={note.id}
+              userId={note.userId}
               title={note.title}
               description={note.description}
             />

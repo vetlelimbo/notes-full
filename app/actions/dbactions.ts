@@ -40,7 +40,11 @@ export async function createNote(newNote: NewNote) {
 
 export async function getNotes(userId: string) {
   try {
-    const data = await db.select().from(note).where(eq(note.userId, userId));
+    const data = await db
+      .select()
+      .from(note)
+      .orderBy(desc(note.createdAt))
+      .where(eq(note.userId, userId));
     return { success: true, data };
   } catch (err) {
     return { success: false, error: err };
