@@ -1,1 +1,2 @@
 TODO - Implement server side functions for data base queries for notes
+TODO - Implement styling on landing page with appropiate hero buttons and features section

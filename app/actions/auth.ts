@@ -1,7 +1,6 @@
 "use server";
 import { auth } from "@/auth";
 import { headers } from "next/headers";
-import { parse } from "path";
 import * as z from "zod";
 
 const userSignUp = z.object({
