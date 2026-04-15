@@ -36,7 +36,7 @@ export default async function EditNote({
     );
   }
 
-  const note = response.data[0];
+  const note = response.data[0]; //TODO: Why is this illegal?
 
   return <EditClient note={note} />;
 }

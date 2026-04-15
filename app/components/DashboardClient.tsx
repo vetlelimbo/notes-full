@@ -2,6 +2,7 @@
 import { Note } from "@/lib/db/schema";
 import NoteCard from "./NoteCard";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function DashboardClient({ notes }: { notes: Note[] }) {
   const [search, setSearch] = useState("");
@@ -20,16 +21,30 @@ export default function DashboardClient({ notes }: { notes: Note[] }) {
           onChange={(e) => setSearch(e.target.value)}
         ></input>
       </div>
-      <div className="grid grid-cols-4 gap-4">
-        {filteredNotes.map((note) => (
-          <NoteCard
-            key={note.id}
-            id={note.id}
-            title={note.title}
-            description={note.description}
-          />
-        ))}
-      </div>
+      {notes.length === 0 ? (
+        <div className="text-center">
+          <p className="text-white text-3xl font-semibold text-center mb-1">
+            You dont have any notes!
+          </p>
+          <Link
+            href={"/dashboard/createnote"}
+            className="text-white underline text-md text-center cursor-pointer"
+          >
+            Click here to create your first note →
+          </Link>
+        </div>
+      ) : (
+        <div className="grid grid-cols-4 gap-4">
+          {filteredNotes.map((note) => (
+            <NoteCard
+              key={note.id}
+              id={note.id}
+              title={note.title}
+              description={note.description}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
