@@ -2,6 +2,7 @@ import { integer, timestamp, text, pgTable } from "drizzle-orm/pg-core";
 
 export const note = pgTable("note", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: text("userId").unique().notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

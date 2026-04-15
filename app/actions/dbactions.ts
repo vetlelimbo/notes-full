@@ -1,2 +1,8 @@
 "use server";
-//TODO Need to create server actions for CRUD operations
+
+import { db } from "@/lib/db/drizzle";
+import { note } from "@/lib/db/schema";
+
+export async function createNote() {
+    await db.insert(note).
+}
